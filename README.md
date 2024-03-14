@@ -112,3 +112,28 @@ Here is an example of a serivce class in the `template_webapi` microservice:
 
 - Performance: ORMs can be slower than raw SQL (lazy loading, n+1 queries) if you're not careful, see example in [sqlalchemy_model.py](queries/joined_queries/sqlalchemy_model.py)
 - Complexity: ORMs can be complex and difficult to understand
+
+## Migrations
+
+Migrations are a way to manage changes to the database schema over time. They are a way to keep track of changes 
+to the database schema and apply those changes to the database.
+
+### Alembic
+
+Alembic is a lightweight database migration tool for usage with the SQLAlchemy Database Toolkit for Python. It is
+by the same author as SQLAlchemy and is the recommended way to manage migrations with SQLAlchemy.
+
+### Setting up a new project
+
+Basically all you need to do is run `invoke setup-migrations` with the right parameters. If this is overwhelming,
+get in touch with me. It only needs to be done one per microservice.
+
+### Creating a new migration
+
+Creating a new migrations happens in three steps:
+- First you change the models in the codebase
+- Second you run the `invoke autogenerate-migrations` command which will generate a new migration script
+  *important*: you should always review the generated migration script before running it
+- Third you run the `invoke run-migration` command which will apply the migration to the database
+
+The third step needs to be done in every environment as they all use different databases.
