@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  workshop-db:
+    # same version as in AWS RDS
+    image: postgres:14.9-alpine
+    environment:
+      # Only for testing
+      POSTGRES_USER: workshop
+      POSTGRES_PASSWORD: workshop
+      POSTGRES_DB: workshop
+    volumes:
+      - workshop_postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  workshop_postgres_data:
