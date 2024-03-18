@@ -1,8 +1,13 @@
+import logging
+
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 Base = declarative_base()
+
+logging.basicConfig(format="%(message)s", level="INFO")
+logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
 
 
 # Define the User model
@@ -19,11 +24,11 @@ class User(Base):
 
 
 # Define the database connection string
-engine = create_engine('postgresql+psycopg2://workshop:workshop@localhost/workshop', echo=True)
+engine = create_engine('postgresql+psycopg2://workshop:workshop@localhost/workshop')
 Session = sessionmaker(bind=engine)
 
 # Execute a query
 with Session() as session:
     results = session.query(User).order_by(User.id)
     for result in results:
-        print(repr(result), type(result))
+        logging.info(f"{repr(result)}, {type(result)}")
