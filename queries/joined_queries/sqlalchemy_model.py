@@ -48,19 +48,21 @@ with Session() as session:
 
 with Session() as session:
     logging.info('\n--- Query without join: ---')
-    user = session.query(User).order_by(User.id).first()
-    logging.info('\n--- User model: ---')
-    logging.info(f"{repr(user)}, {type(user)}\n")
+    users = session.query(User).all()
     logging.info('--- Before accessing posts, another query happens: ---')
-    logging.info('\n--- Posts: ---')
-    for post in user.posts:
-        logging.info(f"{repr(post)}, {type(post)}")
+    for user in users:
+        logging.info('\n--- User model: ---')
+        logging.info(f"{repr(user)}, {type(user)}")
+        logging.info('--- Posts: ---')
+        for post in user.posts:
+            logging.info(f"{repr(post)}, {type(post)}")
 
 
     logging.info('\n\n\n--- Query with join: ---')
-    user = session.query(User).join(User.posts).order_by(User.id).first()
-    logging.info('\n--- User model: ---')
-    logging.info(f"{repr(user)}, {type(user)}\n")
-    logging.info('\n--- Posts: ---')
-    for post in user.posts:
-        logging.info(f"{repr(post)}, {type(post)}")
+    users_joined = session.query(User).join(User.posts).all()
+    for user in users_joined:
+        logging.info('\n\n--- User model: ---')
+        logging.info(f"{repr(user)}, {type(user)}")
+        logging.info('--- Posts: ---')
+        for post in user.posts:
+            logging.info(f"{repr(post)}, {type(post)}")
